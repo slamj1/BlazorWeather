@@ -72,15 +72,22 @@
                 {
                     locations = results;
                     noResults = locations.Length == 0;
+                    currentSearchCts.Dispose();
                     currentSearchCts = null;
                 }
             }
 
             StateHasChanged();
+
         }
         catch (Exception ex)
         {
             Console.Error.WriteLine(ex.StackTrace);
+
+            // Reset for UI 
+            currentSearchCts?.Cancel();
+            currentSearchCts.Dispose();
+            currentSearchCts = null;
         }
     }
 
